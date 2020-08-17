@@ -1,23 +1,23 @@
 import React from 'react'
 
-const Total = () => {
+const Total = ({totalExpences, totalIncome, balance}) => {
     return (
         <section className="total">
                 <header className="total__header">
                     <h3>Balance</h3>
-                    <p className="total__balance">0 ₽</p>
+                    <p className="total__balance">{balance} ₽</p>
                 </header>
                 <div className="total__main">
                     <div className="total__main-item total__income">
                         <h4>Incomes</h4>
                         <p className="total__money total__money-income">
-                            +0 ₽
+                            {totalIncome}₽
                         </p>
                     </div>
                     <div className="total__main-item total__expenses">
                         <h4>Expences</h4>
                         <p className="total__money total__money-expenses">
-                            -0 ₽
+                            {totalExpences} ₽
                         </p>
                     </div>
                 </div>
