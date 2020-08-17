@@ -20,6 +20,14 @@ class App extends Component {
 			}
 		}
 
+	componentWillMount() {
+		this.getBalance();
+	}
+
+	componentDidUpdate () {
+		this.addStorage();
+	}
+
 	addTransaction = add => {
 
 		const transactions = [...this.state.transactions];
@@ -28,7 +36,7 @@ class App extends Component {
 			// calculator money react; +new Date returns number, withought + - object
 			id: `cmr${(+new Date).toString(16)}`,
 			description : this.state.description,
-			amount: this.state.amount,
+			amount: parseFloat(this.state.amount),
 			add
 		}
 
@@ -38,15 +46,12 @@ class App extends Component {
 			transactions,
 			amount: '',
 			description: '',
-		}, () =>{
-			this.getBalance();
-			this.addStorage();
-		});
+		}, this.getBalance);
 
 	}
 
 	addAmount = e => {
-		this.setState({amount: parseFloat(e.target.value)})
+		this.setState({amount: e.target.value})
 	}
 
 	addDescription = e => {
@@ -82,7 +87,12 @@ class App extends Component {
 		localStorage.setItem('calcMoney', JSON.stringify(this.state.transactions))
 	}
 
-  render () {
+	delTransaction = key => {
+		const transactions = this.state.transactions.filter(item=>item.id!==key);
+		this.setState({transactions}, this.getlBalance)
+	}
+
+  	render () {
 		return (
 			<React.Fragment>
 				<header>
@@ -97,6 +107,7 @@ class App extends Component {
 								balance={this.state.balance}/>
 							<History
 								transactions={this.state.transactions}
+								delTransaction={this.delTransaction}
 								/>
 							<Operation
 								addTransaction = {this.addTransaction}
